@@ -1,0 +1,82 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:mvc="http://www.springframework.org/schema/mvc"
+   xmlns:context="http://www.springframework.org/schema/context"
+   xmlns:security="http://www.springframework.org/schema/security"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:beans="http://www.springframework.org/schema/beans"
+   xsi:schemaLocation="
+   http://www.springframework.org/schema/beans     
+   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+   http://www.springframework.org/schema/mvc 
+   http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+   http://www.springframework.org/schema/context 
+   http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+   <context:component-scan base-package="in.lolva.controller, in.lolva.dao,in.lolva.services" />
+
+
+   <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+   	  <property name="viewClass"  value="org.springframework.web.servlet.view.JstlView" />  
+      <property name="prefix" value="/WEB-INF/views/" />
+      <property name="suffix" value=".jsp" />
+   </bean>
+
+  
+ <!--  declare datasource bean  -->  
+ <bean id="dataSource"  
+  class="org.springframework.jdbc.datasource.DriverManagerDataSource">  
+  <property name="driverClassName" value="com.mysql.jdbc.Driver" />  
+  <property name="url" value="jdbc:mysql://mydbinstance.c6ika2p7onsd.us-west-2.rds.amazonaws.com:3306/mydatabase" />  
+  <property name="username" value="ajay1234" />  
+  <property name="password" value="ajay1234" />  
+ </bean>   
+ 
+  
+  <bean id="lolvaController" class="in.lolva.controller.LolvaController">
+  		<property name="lolvaServices" ref="lolvaServices"></property> 
+  </bean>
+  
+   <bean id="lolvaServices" class="in.lolva.services.LolvaServices">
+  		<!-- <property name="lolvaDAO" ref="lolvaDAO"></property> -->
+  </bean>
+ 
+ <bean id="lolvaDAO" class="in.lolva.dao.LolvaDAO">
+ <!-- <property name="dataSource"  ref="dataSource" /> -->
+ </bean>   
+ 
+
+  
+ 
+  
+ 
+	<mvc:resources mapping="/resources/**" location="/images/" />
+	<mvc:resources mapping="/resources/**" location="/js/" />
+	<mvc:annotation-driven />
+	
+ 
+  <!--   <beans:bean id="simpleMappingExceptionResolver" class="com.discover.achievements.resolver.MySimpleMappingExceptionResolver">
+        <beans:property name="exceptionMappings">
+            <beans:map>
+                <beans:entry key="Exception" value="generic_error"></beans:entry>
+            </beans:map>
+        </beans:property>
+        <beans:property name="defaultErrorView" value="generic_error"/> 
+    </beans:bean>  -->
+     
+    
+    <!-- Configure to plugin JSON as request and response in method handler -->
+    <beans:bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+        <beans:property name="messageConverters">
+            <beans:list>
+                <beans:ref bean="jsonMessageConverter"/>
+            </beans:list>
+        </beans:property>
+    </beans:bean>
+     
+    <!-- Configure bean to convert JSON to POJO and vice versa -->
+    <beans:bean id="jsonMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+    </beans:bean>	
+	
+	
+	
+</beans>
