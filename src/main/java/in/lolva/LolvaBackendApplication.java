@@ -8,5 +8,6 @@ public class LolvaBackendApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(LolvaBackendApplication.class, args);
+		// EDITED ON WEDNESDAY 
 	}
 }
