@@ -12,9 +12,6 @@ public class LolvaController {
 	
 	LolvaServices lolvaServices;
 	
-	
-	
-	
 	public LolvaServices getLolvaServices() {
 		return lolvaServices;
 	}
